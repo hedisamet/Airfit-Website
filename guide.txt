@@ -1,0 +1,15 @@
+to create a virtual environment to test the app on localhost
+
+open terminal in  'air_fit' folder
+
+python -m venv myenv
+
+myenv\Scripts\activate
+
+pip install django
+
+pip install pillow
+
+cd myapp
+
+python manage.py runserver

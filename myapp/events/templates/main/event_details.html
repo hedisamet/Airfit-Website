@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>AirFit: Air Quality Analytics for Personalized Health Recommendations</title>
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+
+</head>
+
+<body>
+
+ <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <div class="logo">
+        <a href="{% url 'index'%}"><img src="{% static 'img/logo.png'%}" alt="" class="img-fluid"></a>
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link  " href="{% url 'index'%}#hero">Home</a></li>
+          <li><a class="nav-link " href="{% url 'index'%}#objectives">Research</a></li>
+          <li><a class="nav-link " href="{% url 'index'%}#partners">Project Partners</a></li>
+          <li><a class="nav-link  " href="{% url 'publications'%}">Publications</a></li>
+          <li><a class="nav-link  active" href="{% url 'event'%}">Events</a></li>
+          <li><a class="nav-link " href="#contact">Contact</a></li>
+          {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="getstarted nav-link dropdown-toggle text-white"  id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ user.username }}
+          </a>
+          <div class="dropdown-menu mt-2 " aria-labelledby="navbarDropdownMenuLink">
+            {% if user.is_superuser %}
+            <a class="dropdown-item text-center" href="{% url 'admin' %}" >My space</a>
+            {% else %}
+            <a class="dropdown-item text-center" href="{% url 'researcher:index' %}">My space</a>
+            {% endif %}
+            <a class="dropdown-item text-center" href="{% url 'logout' %}">Logout</a>
+            
+          </div>
+        </li>
+        {% else %}
+          <li><a class="getstarted scrollto" href="{% url 'login' %}">Login</a></li>
+        {% endif %}
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+
+    </div>
+  </header><!-- End Header -->
+
+
+  <main id="main">
+    <section class="d-flex align-items-center mt-5">
+      <div class="container">
+          
+          <div class="row ">
+              <div class="section-title" data-aos="fade-up">
+                  <h2>{{post.title}}</h2>
+                </div>
+              <div class="card col-lg-6 mx-auto bg-transparent border-0"data-aos="fade-up">
+                  <p class="card-text">{{post.presentation}}</p>
+              </div>
+          </div>
+      </div>
+  </section> 
+
+  <!-- ======= speaker Section ======= -->
+<section id="speaker" class="speaker section-bg">
+  <div class="container">
+  
+    <div class="section-title" data-aos="fade-up">
+      <h2>speakers</h2>
+    </div>
+
+    <div class="container">
+      {% for speaker in post.speakers.all %}
+      <div class="row justify-content-center">
+        <div class="col-lg-3 col-md-6 text-center">
+          <div class="member" data-aos="fade-up" data-aos-delay="100">
+            <div class="member-info">
+              <h4>{{ speaker.name }}</h4>
+              <p>{{ speaker.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+      
+    </div>
+  </div>
+</section><!-- End speaker Section -->
+
+<!-- ======= program Section ======= -->
+<div class="container ">
+  <div class="section-title mt-5" data-aos="fade-up">
+    <h2>Program</h2>
+  </div>
+  <div class="row" data-aos="fade-up">
+      <div class="col-lg-8 mx-auto">
+          <img src="{{ post.program_image.url }}" alt="" class="img-fluid mx-auto " style="max-width: 800px;">
+      </div>
+  </div>
+</div>
+<!-- End program Section -->
+
+    <!-- ======= images Details Section ======= -->
+    <section id="event-details" class="event-details" >
+      <div class="container">
+
+        <div class="row ">
+
+          <div class="col-lg-8 mx-auto">
+            <div class="event-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+                {% for image in post.post_images.all %}
+                <div class="swiper-slide">
+                  <img src="{{ image.image.url }}" alt="" style="max-width: 800px;">
+                </div>
+                {% endfor %}
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          
+
+        </div>
+
+      </div>
+    </section><!-- End images Details Section -->
+
+  
+<!-- ======= Contact Section ======= -->
+<section id="contact" class="contact">
+  <div class="container">
+
+    <div class="section-title" data-aos="fade-up">
+      <h2>Contact Us</h2>
+    </div>
+    <div class="row">
+    <div class="col">
+
+      <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="contact-about">
+          <h3 >Prof. Dr. Bernd Freisleben</h3>
+          <p>Philipps-Universität Marburg <br>
+            Department of Mathematics and Computer Science, University of Marburg <br>Hans-Meerwein-Str. 9</p>
+          
+        </div>
+      </div>
+
+      <div  class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="info">
+
+          
+          <div>
+            <i class="ri-mail-send-line"></i>
+            <p> freisleben@uni-marburg.de</p>
+          </div>
+
+          <div>
+            <i class="ri-phone-line"></i>
+            <p>+49 6421 - 28 21 568</p>
+          </div>
+          <div>
+            <i class="fa fa-fax"></i>
+            <p>06421-2821573</p>
+          </div>
+
+          
+
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="col-lg-6  col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="contact-about">
+          <h3 >Dr. Afef Mdhaffar</h3>
+          <p>Digital Research Center of Sfax
+            <br>Tunis road 10 km Technopole of Sfax, Sakiet Ezzit, Ons city <br>
+            3021 Sfax - Tunisia </p>
+          
+        </div>
+      </div>
+
+      <div  class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="info">
+
+         
+          <div>
+            <i class="ri-mail-send-line"></i>
+            <p>afef.mdhaffar@enis.tn</p>
+          </div>
+
+          <div>
+            <i class="ri-phone-line"></i>
+            <p>(+216) 74 863 042</p>
+          </div>
+          <div>
+            <i class="fa fa-fax"></i>
+            <p>(+216) 74 863 041</p>
+          </div>
+
+          
+
+        </div>
+      </div>
+
+    </div>
+      
+
+    </div>
+
+  </div>
+</section><!-- End Contact Section -->
+
+
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="row d-flex align-items-center">
+        <div class="col-lg-12 text-lg-left text-center">
+          <div class="copyright">
+            &copy; Copyright <strong>Air Fit</strong>. All Rights Reserved
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+ <!-- Vendor JS Files -->
+ <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+ <script src="{% static 'vendor/aos/aos.js' %}"></script>
+ <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+ <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+ <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+ <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+ <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+
+ <!-- Template Main JS File -->
+ <script src="{% static 'js/main.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+  <!-- Add jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <!-- Add Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <!-- Add Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ <!-- Add the necessary CSS and JS files for the swiper slider -->
+<link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet">
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+  // Initialize the swiper slider
+  var swiper = new Swiper('.event-details-slider', {
+    slidesPerView: 1,
+    loop: true,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+  });
+</script>
+
+</body>
+
+</html>

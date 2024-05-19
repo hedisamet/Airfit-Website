@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BibTeX Entry</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .reference-section {
+            margin-bottom: 20px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BibTeX Entry</h1>
+        <div class="reference-section">
+            <h2>Reference:</h2>
+            <p>
+                <strong>Title:</strong> {{ article.title }}<br>
+                <strong>Authors:</strong> {{ article.authors }}<br>
+                <strong>Place:</strong> {{ article.place }}<br>
+                <strong>Date:</strong> {{ article.publication_date }}
+            </p>
+        </div>
+        <div class="bibtex-section">
+            <h2>BibTeX Entry</h2>
+            <pre id="bibtex-content">{{ bibtex }}</pre>
+        </div>
+    </div>
+    <script>
+        function generateBibtex(articleId) {
+            fetch(`/generate_bibtex/${articleId}/`)
+                .then(response => response.text())
+                .then(bibtex => {
+                    const bibtexContentElement = document.getElementById('bibtex-content');
+                    bibtexContentElement.textContent = bibtex;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        
+        // Get the article ID from the "bibtex-link" element's data attribute
+        const bibtexLink = document.querySelector('.bibtex-link');
+        const articleId = bibtexLink.dataset.articleId;
+
+        // Call the generateBibtex function with the article ID
+        generateBibtex(articleId);
+    </script>
+</body>
+</html>
+
