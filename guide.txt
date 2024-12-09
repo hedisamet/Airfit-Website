@@ -13,3 +13,7 @@ pip install pillow
 cd myapp
 
 python manage.py runserver
+
+python manage.py test events.tests.ArticleTest.test_display_article_info -v 2
+
+python manage.py test events.tests.SpeakerTest  

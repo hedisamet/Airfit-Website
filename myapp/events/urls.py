@@ -4,11 +4,8 @@ from .admin import CustomAdminSite
 
 admin_site = CustomAdminSite()
 
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('events.urls')),
-    # Other URL patterns
 ]
                               
