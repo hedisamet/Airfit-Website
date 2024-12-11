@@ -17,3 +17,19 @@ python manage.py runserver
 python manage.py test events.tests.ArticleTest.test_display_article_info -v 2
 
 python manage.py test events.tests.SpeakerTest  
+
+coverage run manage.py test
+
+coverage report
+
+coverage html
+
+open htmlcov/index.html  # macOS
+start htmlcov/index.html # Windows
+
+coverage run --source=your_app_name manage.py test
+
+
+locust
+
+http://localhost:8089

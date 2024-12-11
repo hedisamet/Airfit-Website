@@ -1,3 +1,4 @@
+import pdb
 from django.test import TestCase
 from django.contrib.auth.models import User
 from .models import UserCreation, Post, Image, Speaker, Article
@@ -25,17 +26,19 @@ class UserCreationTest(TestCase):
         self.assertFalse(self.user_creation.approved)
 
     def test_display_user_creation(self):
-        print("\n=== User Creation Details ===")
-        print(f"Username: {self.user_creation.user.username}")
-        print(f"Token: {self.user_creation.token}")
-        print(f"Approved: {self.user_creation.approved}")
-        
-        print("\n=== All UserCreations in Database ===")
+        # Assertions instead of print statements for automated testing
+        self.assertEqual(self.user_creation.user.username, 'testuser')
+        self.assertEqual(self.user_creation.token, 'testtoken123')
+        self.assertFalse(self.user_creation.approved)
+
+        # Ensure the database contains the expected user creation data
         all_users = UserCreation.objects.all()
+        self.assertEqual(all_users.count(), 1)  # Expecting one user creation object
         for user in all_users:
-            print(f"\nUser: {user.user.username}")
-            print(f"Token: {user.token}")
-            print(f"Approved: {user.approved}")
+            self.assertEqual(user.user.username, 'testuser')
+            self.assertEqual(user.token, 'testtoken123')
+            self.assertFalse(user.approved)
+
 
 class PostTest(TestCase):
     def setUp(self):
@@ -50,22 +53,25 @@ class PostTest(TestCase):
         )
 
     def test_post_creation(self):
+        pdb.set_trace()  # Debugger breakpoint to inspect `self.post`
         self.assertEqual(self.post.title, 'Test Post')
         self.assertEqual(self.post.slug, 'test-post')
         self.assertEqual(self.post.author, self.user)
 
     def test_display_post(self):
-        print("\n=== Post Details ===")
-        print(f"Title: {self.post.title}")
-        print(f"Slug: {self.post.slug}")
-        print(f"Author: {self.post.author}")
-        
-        print("\n=== All Posts in Database ===")
+        # Assertions for the post details
+        self.assertEqual(self.post.title, 'Test Post')
+        self.assertEqual(self.post.slug, 'test-post')
+        self.assertEqual(self.post.author.username, 'testuser')
+
+        # Ensure the database contains the expected post data
         all_posts = Post.objects.all()
+        self.assertEqual(all_posts.count(), 1)  # Expecting one post
         for post in all_posts:
-            print(f"\nPost: {post.title}")
-            print(f"Slug: {post.slug}")
-            print(f"Author: {post.author}")
+            self.assertEqual(post.title, 'Test Post')
+            self.assertEqual(post.slug, 'test-post')
+            self.assertEqual(post.author.username, 'testuser')
+
 
 class ImageTest(TestCase):
     def setUp(self):
@@ -88,15 +94,17 @@ class ImageTest(TestCase):
         self.assertEqual(self.image.image, 'default.jpg')
 
     def test_display_image(self):
-        print("\n=== Image Details ===")
-        print(f"Post: {self.image.post.title}")
-        print(f"Image Path: {self.image.image}")
-        
-        print("\n=== All Images in Database ===")
+        # Assertions for the image details
+        self.assertEqual(self.image.post.title, 'Test Post')
+        self.assertEqual(self.image.image, 'default.jpg')
+
+        # Ensure the database contains the expected image data
         all_images = Image.objects.all()
+        self.assertEqual(all_images.count(), 1)  # Expecting one image
         for img in all_images:
-            print(f"\nImage: {img.post.title}")
-            print(f"Image Path: {img.image}")
+            self.assertEqual(img.post.title, 'Test Post')
+            self.assertEqual(img.image, 'default.jpg')
+
 
 class SpeakerTest(TestCase):
     def setUp(self):
@@ -124,15 +132,17 @@ class SpeakerTest(TestCase):
         self.assertEqual(str(self.speaker), 'Test Speaker')
 
     def test_display_speaker(self):
-        print("\n=== Speaker Details ===")
-        print(f"Name: {self.speaker.name}")
-        print(f"Description: {self.speaker.description}")
-        
-        print("\n=== All Speakers in Database ===")
+        # Assertions for the speaker details
+        self.assertEqual(self.speaker.name, 'Test Speaker')
+        self.assertEqual(self.speaker.description, 'Test Description')
+
+        # Ensure the database contains the expected speaker data
         all_speakers = Speaker.objects.all()
+        self.assertEqual(all_speakers.count(), 1)  # Expecting one speaker
         for speaker in all_speakers:
-            print(f"\nSpeaker: {speaker.name}")
-            print(f"Description: {speaker.description}")
+            self.assertEqual(speaker.name, 'Test Speaker')
+            self.assertEqual(speaker.description, 'Test Description')
+
 
 class ArticleTest(TestCase):
     def setUp(self):
@@ -146,6 +156,7 @@ class ArticleTest(TestCase):
         )
 
     def test_article_creation(self):
+        pdb.set_trace()  # Debugger breakpoint to inspect `self.article`
         self.assertEqual(self.article.title, 'Test Article')
         self.assertEqual(self.article.article_type, 'books')
         self.assertEqual(self.article.authors, 'Test Author')
@@ -157,19 +168,14 @@ class ArticleTest(TestCase):
         self.assertEqual(str(self.article), 'Test Article')
 
     def test_display_article_info(self):
-        # Print the created article details
-        print("\n=== Created Article Details ===")
-        print(f"Title: {self.article.title}")
-        print(f"Type: {self.article.article_type}")
-        print(f"Authors: {self.article.authors}")
-        print(f"Publication Date: {self.article.publication_date}")
-        print(f"Links: {self.article.links}")
-        print(f"BibTeX: {self.article.bibtex}")
+        # Incorrect assertion to force failure
+        self.assertEqual(self.article.title, 'Wrong Title')  # This will fail
         
-        # Display all articles in the database
-        print("\n=== All Articles in Database ===")
+        # Ensure the database contains the expected article data
         all_articles = Article.objects.all()
+        self.assertEqual(all_articles.count(), 1)  # Expecting one article
         for article in all_articles:
-            print(f"\nArticle: {article.title}")
-            print(f"Authors: {article.authors}")
-            print(f"Type: {article.article_type}")
+            # These assertions will pass as the article in the database is correct
+            self.assertEqual(article.title, 'Test Article')
+            self.assertEqual(article.authors, 'Test Author')
+            self.assertEqual(article.article_type, 'books')
